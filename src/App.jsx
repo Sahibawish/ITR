@@ -8,8 +8,8 @@ import Comingsoon from "./incometax/comingsoon";
 function App() {
   return (
     <Routes>
+        <Route path="/" element={<IncomeTaxLogin />} />
       <Route path="/incometax" element={<IncomeTaxLayout />}>
-        <Route path="login" element={<IncomeTaxLogin />} />
         <Route path="itr_dashboard/*" element={<IncomeTax_Dashboard />} />
         <Route path="comingsoon" element={<Comingsoon />} />
       </Route>
