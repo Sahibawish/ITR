@@ -69,7 +69,7 @@ function ChartToggle({ view, setView }) {
         onClick={() => setView("chart")}
         className={`py-2 px-4 rounded-md border ${
           view === "chart"
-            ? "bg-indigo-800 text-white"
+            ? "bg-[#076bcf] text-white"
             : "bg-white border border-gray-300 text-gray-500"
         }`}
         aria-label="Chart view"
@@ -152,7 +152,7 @@ export default function IncomeTax_Dashboard() {
         <Breadcrumb items={breadcrumb} />
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(280px,360px)_1fr] gap-4 md:gap-5">
+      <div className="max-w-6xl px-4 lg:px-auto mx-auto grid grid-cols-1 lg:grid-cols-[minmax(280px,360px)_1fr] gap-4 md:gap-5">
         <div className="flex flex-col gap-4 md:gap-5">
           <Card className="p-5 rounded-sm">
             <h2 className="text-lg font-medium text-gray-900 mb-4">
@@ -329,7 +329,7 @@ export default function IncomeTax_Dashboard() {
                   <div className="relative">
                     {/* base gray line (full width) */}
                     <div
-                      className="absolute top-3 h-0.5 -translate-y-1/2 bg-slate-200"
+                      className="absolute top-3 h-0.5 -translate-y-1/2 bg-gray-300"
                       style={{ right: "23%", width: "25%" }}
                     />
                     <div
@@ -337,7 +337,7 @@ export default function IncomeTax_Dashboard() {
                       style={{ left: "3%", width: "23%" }}
                     />
                     <div
-                      className="absolute top-3 h-0.5 -translate-y-1/2 bg-blue-600"
+                      className="absolute top-3 h-0.5 -translate-y-1/2 bg-[#076bcf]"
                       style={{ left: "29%", width: "25%" }}
                     />
 
@@ -375,7 +375,7 @@ export default function IncomeTax_Dashboard() {
                       </div>
 
                       <div className="flex flex-col">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-blue-600 bg-white">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full border-3 border-[#076bcf] bg-white">
                           <span className="text-base font-semibold"></span>
                         </div>
                         <p className="text-sm font-semibold text-gray-900 mt-3">
@@ -395,7 +395,7 @@ export default function IncomeTax_Dashboard() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3 mt-6 ml-5">
+                <div className="flex gap-2 md:gap-3 mt-6 md:ml-5">
                   <button className="px-6 py-2 rounded-md border border-[#2a3a8d] text-[#2a3a8d] bg-white text-sm font-medium">
                     File Revised Return
                   </button>
@@ -422,52 +422,58 @@ export default function IncomeTax_Dashboard() {
                   Tax Deposit
                 </h2>
               </button>
-              <ChartToggle view={depositView} setView={setDepositView} />
             </div>
 
             {taxDepositOpen && (
-              <div className="h-[340px] mt-5 sm:h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={taxDepositData}
-                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
-                  >
-                    <Bar dataKey="A.Y. 2025-26" fill="#7dd3fc" barSize={28} />
-                    <Bar dataKey="A.Y. 2026-27" fill="#f9a8d4" barSize={28} />
-                    <Legend
-                      verticalAlign="top"
-                      align="right"
-                      formatter={(value) => (
-                        <span style={{ color: "#000", fontSize: 14, top: -6 }}>
-                          {value}
-                        </span>
-                      )}
-                    />
+              <>
+                <div className="-mt-6 flex justify-end">
+                  <ChartToggle view={depositView} setView={setDepositView} />
+                </div>
+                <div className="h-85 mt-5 sm:h-75">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={taxDepositData}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                    >
+                      <Bar dataKey="A.Y. 2025-26" fill="#7dd3fc" barSize={28} />
+                      <Bar dataKey="A.Y. 2026-27" fill="#f9a8d4" barSize={28} />
+                      <Legend
+                        verticalAlign="top"
+                        align="right"
+                        formatter={(value) => (
+                          <span
+                            style={{ color: "#000", fontSize: 14, top: -6 }}
+                          >
+                            {value}
+                          </span>
+                        )}
+                      />
 
-                    <CartesianGrid vertical={true} stroke="#EBEBEB" />
-                    <XAxis
-                      dataKey="name"
-                      tick={{ fontSize: 11, fill: "#6b7280" }}
-                      angle={-15}
-                      textAnchor="end"
-                      height={40}
-                      interval={0}
-                    />
-                    <YAxis
-                      tickFormatter={(v) => v.toLocaleString("en-IN")}
-                      domain={[0, 120000]}
-                      ticks={[0, 20000, 40000, 60000, 80000, 100000, 120000]}
-                      tick={{ fontSize: 11, fill: "#6b7280" }}
-                      label={{
-                        value: "Amount (₹)",
-                        angle: -90,
-                        position: "insideLeft",
-                        style: { fontSize: 12, fill: "#374151" },
-                      }}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+                      <CartesianGrid vertical={true} stroke="#EBEBEB" />
+                      <XAxis
+                        dataKey="name"
+                        tick={{ fontSize: 11, fill: "#6b7280" }}
+                        angle={-15}
+                        textAnchor="end"
+                        height={40}
+                        interval={0}
+                      />
+                      <YAxis
+                        tickFormatter={(v) => v.toLocaleString("en-IN")}
+                        domain={[0, 120000]}
+                        ticks={[0, 20000, 40000, 60000, 80000, 100000, 120000]}
+                        tick={{ fontSize: 11, fill: "#6b7280" }}
+                        label={{
+                          value: "Amount (₹)",
+                          angle: -90,
+                          position: "insideLeft",
+                          style: { fontSize: 12, fill: "#374151" },
+                        }}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </>
             )}
           </Card>
 
@@ -486,11 +492,13 @@ export default function IncomeTax_Dashboard() {
                   Recent Filed Returns
                 </h2>
               </button>
-              <ChartToggle view={returnsView} setView={setReturnsView} />
             </div>
 
             {returnsOpen && (
               <>
+                <div className="-mt-6 flex justify-end">
+                  <ChartToggle view={depositView} setView={setDepositView} />
+                </div>
                 <div className="h-[340px] sm:h-[400px] mt-4">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart

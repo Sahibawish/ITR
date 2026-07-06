@@ -4,6 +4,8 @@ import IncomeTaxLayout from "./incometax/layout/incometax_layout";
 import IncomeTaxLogin from "./incometax/login";
 import IncomeTax_Dashboard from "./incometax";
 import Comingsoon from "./incometax/comingsoon";
+import FileIncomeTaxReturn from "./incometax/e-file/IncomeTaxReturn/FileIncomeTaxReturn";
+import SelectStatus from "./incometax/e-file/IncomeTaxReturn/SelectStatus";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
         <Route path="/" element={<IncomeTaxLogin />} />
       <Route path="/incometax" element={<IncomeTaxLayout />}>
         <Route path="itr_dashboard/*" element={<IncomeTax_Dashboard />} />
+        <Route path="itr_dashboard/file_income_tax_return" element={<FileIncomeTaxReturn />} />
+        <Route path="itr_dashboard/select_status" element={<SelectStatus />} />
         <Route path="comingsoon" element={<Comingsoon />} />
       </Route>
     </Routes>

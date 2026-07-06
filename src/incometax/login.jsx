@@ -53,7 +53,7 @@ const IncomeTaxLogin = () => {
       <div className="max-w-6xl mx-auto bg-white rounded-sm border-[1.5px] border-gray-200">
 
         <div className="flex flex-col md:flex-row">
-          <div className="p-8 md:p-14 md:pr-20 w-[42%]">
+          <div className="p-8 md:p-14 md:pr-20 md:w-[42%]">
             {step === 1 && (
 
               <h2 className="text-3xl font-semibold text-gray-800 mb-6">Login</h2>
@@ -234,7 +234,7 @@ const IncomeTaxLogin = () => {
           </div>
 
           {/* Right - User ID Info or Security Padlock */}
-          <div className="p-8 md:p-14 bg-[#fafbfd] w-[58%]">
+          <div className="p-8 md:p-14 bg-[#fafbfd] md:w-[58%]">
             {step === 1 ? (
               <>
                 <h3 className="text-lg font-semibold text-gray-500 mb-6">

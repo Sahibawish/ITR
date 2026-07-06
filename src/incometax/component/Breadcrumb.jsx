@@ -10,7 +10,7 @@ const Breadcrumb = ({ items = [] }) => {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 text-sm text-slate-600 mb-6">
+    <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 py-3">
       {items.map((item, index) => (
         <React.Fragment key={`${item.label}-${index}`}>
           {item.clickable && item.path ? (

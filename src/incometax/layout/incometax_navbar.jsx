@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Menu,
@@ -25,6 +25,7 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
   const [languageOpen, setLanguageOpen] = useState(false);
   const [callUsOpen, setCallUsOpen] = useState(false);
   const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
+  const navbarRef = useRef(null);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -40,6 +41,21 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
       navigate("/incometax/login");
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+        setOpenDropdown(null);
+        setCallUsOpen(false);
+        setOpenProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // const menuItems = [
   //   { name: user ? "Dashboard" : "Home", path: "/" },
@@ -58,7 +74,7 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
       submenu: [
         {
           label: "File Income Tax Return",
-          // active: true,
+          path: "/incometax/itr_dashboard/file_income_tax_return",
         },
         { label: "View Filed Returns" },
         { label: "e-Verify Return" },
@@ -169,7 +185,7 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
   const displayPan = user?.pan || "Not Available";
 
   return (
-    <>
+    <div ref={navbarRef}>
       {/* <Strip /> */}
 
       {/* Header Section */}
@@ -177,7 +193,7 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between ">
             {/* Logo */}
-            <div className="flex items-center gap-3 py-3">
+            <div className="flex items-center gap-3 py-1">
               <img
                 src={logo}
                 alt="E-Filing Logo"
@@ -400,8 +416,8 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
                     </button>
 
                     {openDropdown === index && item.megaMenu && (
-                      <div className="absolute left-0 top-full mt-1 overflow-visible z-50">
-                        <div className="relative w-72 rounded-l-md bg-white border border-slate-200 shadow-lg overflow-visible">
+                      <div className="absolute left-0 top-full mt-1 overflow-visible z-2">
+                        <div className="relative w-72 rounded-l-md bg-white border border-slate-200 shadow-[0px_4px_15px_rgba(0,0,0,0.3)] overflow-visible">
                           {item.megaMenu.map((entry) => (
                             <div key={entry.label} className="relative">
                               <button
@@ -409,10 +425,10 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
                                   entry.hasSubmenu &&
                                   setActiveSubmenu(entry.label)
                                 }
-                                className={`w-full flex items-center justify-between px-5 py-4 text-left text-sm border-b border-slate-100 last:border-b-0 ${
+                                className={`w-full flex items-center justify-between px-5 py-4 text-left text-sm border-l-4 border-b border-transparent last:border-b-0 transition-all ${
                                   activeSubmenu === entry.label
-                                    ? "bg-blue-50 text-[#076bcf] font-semibold"
-                                    : "text-slate-800 hover:text-[#076bcf] hover:bg-slate-50"
+                                    ? "bg-blue-50 text-[#076bcf] font-semibold border-l-[#076bcf]"
+                                    : "text-slate-800 hover:text-[#076bcf] hover:bg-slate-50 hover:border-l-[#076bcf]"
                                 }`}
                               >
                                 {entry.label}
@@ -427,24 +443,27 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
                                     {entry.submenu.map((sub, subIndex) => (
                                       <div key={sub.label} className="relative">
                                         <div
-                                          className={`px-5 py-4 text-sm border-b border-slate-100 ${
+                                          className={`px-5 py-4 text-sm border-b-[1.5px] border-l-4 border-transparent border-solid transition-all ${
                                             sub.active
-                                              ? "border-2 border-[#076bcf] text-slate-900 font-medium m-1"
-                                              : "text-slate-800 hover:text-[#076bcf] hover:bg-slate-50"
+                                              ? "border-[#076bcf] text-slate-900 font-medium m-1"
+                                              : "text-slate-800 hover:text-[#076bcf] hover:bg-slate-50 hover:border-l-[#076bcf]"
                                           } ${
                                             subIndex ===
                                             entry.submenu.length - 1
                                               ? "border-b-0"
                                               : ""
-                                          }`}
+                                          } ${sub.path ? "cursor-pointer" : ""}`}
                                           onMouseEnter={() => {}}
+                                          onClick={() =>
+                                            sub.path && navigate(sub.path)
+                                          }
                                         >
                                           {sub.label}
                                         </div>
 
                                         {sub.active &&
                                           sub.children?.length > 0 && (
-                                            <div className="absolute top-0 left-full ml-1 w-72 overflow-hidden rounded-r-md bg-white border border-slate-200 shadow-lg">
+                                            <div className="absolute top-0 left-full ml-1 w-72 overflow-hidden rounded-r-md bg-white border border-slate-200 shadow-[0px_4px_15px_20px_rgba(0,0,0,0.3)]">
                                               {sub.children.map((child) => (
                                                 <button
                                                   key={child}
@@ -509,7 +528,7 @@ const IncomeTaxNavbar = ({ sidebarOpen, setSidebarOpen }) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
